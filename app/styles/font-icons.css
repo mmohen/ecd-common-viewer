@@ -1,0 +1,71 @@
+@font-face {
+    font-family: 'VIEWER';
+    src:    url('../fonts/VIEWER.eot?os6zcd');
+    src:    url('../fonts/VIEWER.eot?os6zcd#iefix') format('embedded-opentype'),
+    url('../fonts/VIEWER.ttf?os6zcd') format('truetype'),
+    url('../fonts/VIEWER.woff?os6zcd') format('woff'),
+    url('../fonts/VIEWER.svg?os6zcd#VIEWER') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'VIEWER' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-actual-size-mode:before {
+    content: "\e90e";
+}
+.icon-width:before {
+    content: "\e900";
+}
+.icon-folder:before {
+    content: "\e901";
+}
+.icon-attachment:before {
+    content: "\e902";
+}
+.icon-full:before {
+    content: "\e903";
+}
+.icon-height:before {
+    content: "\e904";
+}
+.icon-next:before {
+    content: "\e905";
+}
+.icon-outline:before {
+    content: "\e906";
+}
+.icon-prev:before {
+    content: "\e907";
+}
+.icon-print:before {
+    content: "\e908";
+}
+.icon-search:before {
+    content: "\e909";
+}
+.icon-sidebar:before {
+    content: "\e90a";
+}
+.icon-thumbnails:before {
+    content: "\e90b";
+}
+.icon-zoom-in:before {
+    content: "\e90c";
+}
+.icon-zoom-out:before {
+    content: "\e90d";
+}

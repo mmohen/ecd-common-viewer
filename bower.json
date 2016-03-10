@@ -1,0 +1,24 @@
+{
+  "name": "Viewer-component",
+  "version": "0.0.1",
+  "authors": [
+    "Deepak Michael"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "app/js/libs",
+    "test"
+  ],
+  "dependencies": {
+    "pdfjs-dist": "^1.0",
+    "webL10n": null,
+    "es6-promise": null,
+    "jclass": "https://github.com/riga/jclass.git",
+    "class.js": "https://github.com/DominikGuzei/Class.js.git",
+    "eventEmitter": null,
+    "doT": null,
+    "jqlite": null
+  },
+  "directory": "app/js/libs/bower"
+}

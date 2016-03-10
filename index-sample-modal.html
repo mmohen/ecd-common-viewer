@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        tbody > tr:hover {
+            background-color: #d9edf7 !important;
+            cursor: pointer;
+        }
+
+        table {
+            border: 1px solid #eee;
+            box-shadow: 10px 10px 5px lightgrey;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        #viewer-container {
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            height: 80%;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.js"></script>
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.worker.js"></script>
+<script src="app/js/libs/bower/webL10n/l10n.js"></script>
+<script src="app/js/libs/bower/es6-promise/promise.js"></script>
+<script src="app/js/libs/bower/eventEmitter/EventEmitter.js"></script>
+<script src="app/js/libs/bower/doT/doT.js"></script>
+<script src="app/js/libs/bower/jqlite/jqlite.1.1.1.js"></script>
+<script src="app/js/libs/bower/jclass/index.js"></script>
+
+<link rel="stylesheet" type="text/css" href="app/styles/viewer.css" property="stylesheet"/>
+<link href="app/styles/font-icons.css" rel="stylesheet" type="text/css" property="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" property="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+      property="stylesheet">
+
+<script src="app/js/viewer-l10n.js"></script>
+<script src="app/js/util/startup.js"></script>
+<script src="app/js/util/templateManager.js"></script>
+<script src="app/js/util/domUtility.js"></script>
+<script src="app/js/util/delayedTask.js"></script>
+<script src="app/js/store/store.js"></script>
+<script src="app/js/store/arrayStore.js"></script>
+<script src="app/js/store/viewerStore.js"></script>
+<script src="app/js/controller/downloader.js"></script>
+<script src="app/js/controller/mainController.js"></script>
+<script src="app/js/controller/zoomController.js"></script>
+<script src="app/js/controller/searchController.js"></script>
+<script src="app/js/controller/thumbnailController.js"></script>
+<script src="app/js/views/textLayer.js"></script>
+<script src="app/js/views/userActionElements.js"></script>
+<script src="app/js/views/defaultToolbar.js"></script>
+<script src="app/js/views/pageView.js"></script>
+<script src="app/js/viewer.js"></script>
+
+
+<div class="col-md-8 col-md-offset-2" style="margin-top: 100px;">
+    <table class="table table-striped" style="width: 100%">
+        <thead>
+        <tr>
+            <th>File name</th>
+            <th>Size</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="document" data-document="test/samples/compressed.tracemonkey-pldi-09.pdf">
+            <td>compressed.tracemonkey-pldi-09.pdf</td>
+            <td>993 KB</td>
+        </tr>
+        <tr class="document" data-document="test/samples/jclass_descriptors.pdf">
+            <td>jclass_descriptors.pdf</td>
+            <td>108 KB</td>
+        </tr>
+        <tr class="document" data-document="test/samples/w3schools.pdf">
+            <td>w3schools.pdf</td>
+            <td>112 KB</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="modal">
+    <div id="viewer-container"></div>
+</div>
+
+
+<script type="text/javascript">
+    var viewerInstance = new emc.content.viewer.ContentViewer({
+        renderTo: "viewer-container",
+        downloaderPath: "app/js/download/downloader.js",
+        externalToolbar: false,
+        totalPageCount: 1
+    });
+    var modal = document.getElementById('modal');
+    var docRows = document.getElementsByClassName('document');
+    for (var i = 0; i < docRows.length; ++i) {
+        docRows[i].onclick = function () {
+            modal.style.display = 'block';
+            viewerInstance.load({
+                fullDocumentUrl: this.getAttribute('data-document')
+            });
+        };
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+</script>
+
+</body>
+</html>

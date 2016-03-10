@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .viewer-container {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            width: 96%;
+            height: 800px;
+            border: 1px solid #AEBAD3;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.js"></script>
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.worker.js"></script>
+<script src="app/js/libs/bower/webL10n/l10n.js"></script>
+<script src="app/js/libs/bower/es6-promise/promise.js"></script>
+<script src="app/js/libs/bower/eventEmitter/EventEmitter.js"></script>
+<script src="app/js/libs/bower/doT/doT.js"></script>
+<script src="app/js/libs/bower/jqlite/jqlite.1.1.1.js"></script>
+<script src="app/js/libs/bower/jclass/index.js"></script>
+
+<link rel="stylesheet" type="text/css" href="app/styles/viewer.css" property="stylesheet"/>
+<link href="app/styles/font-icons.css" rel="stylesheet" type="text/css" property="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" property="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+      property="stylesheet">
+
+<script src="app/js/viewer-l10n.js"></script>
+<script src="app/js/util/startup.js"></script>
+<script src="app/js/util/templateManager.js"></script>
+<script src="app/js/util/domUtility.js"></script>
+<script src="app/js/util/delayedTask.js"></script>
+<script src="app/js/store/store.js"></script>
+<script src="app/js/store/arrayStore.js"></script>
+<script src="app/js/store/viewerStore.js"></script>
+<script src="app/js/controller/downloader.js"></script>
+<script src="app/js/controller/mainController.js"></script>
+<script src="app/js/controller/zoomController.js"></script>
+<script src="app/js/controller/searchController.js"></script>
+<script src="app/js/controller/thumbnailController.js"></script>
+<script src="app/js/views/textLayer.js"></script>
+<script src="app/js/views/userActionElements.js"></script>
+<script src="app/js/views/defaultToolbar.js"></script>
+<script src="app/js/views/pageView.js"></script>
+<script src="app/js/viewer.js"></script>
+
+
+<div class="col-md-6" style="margin-top: 60px;">
+    <div style="width: 360px; margin: 10px auto;">
+        <label for="doc-selector-left"></label>
+        <select id="doc-selector-left" class="form-control">
+            <option disabled selected> -- select an option --</option>
+            <option value="test/samples/compressed.tracemonkey-pldi-09.pdf">compressed.tracemonkey</option>
+            <option value="test/samples/jclass_descriptors.pdf">jclass_descriptors.pdf</option>
+            <option value="test/samples/w3schools.pdf">w3schools.pdf</option>
+        </select>
+    </div>
+    <div>
+        <div id="viewer-container-left" class="viewer-container"></div>
+    </div>
+</div>
+<div class="col-md-6" style="margin-top: 60px;">
+    <div style="width: 360px; margin: 10px auto;">
+        <label for="doc-selector-right"></label>
+        <select id="doc-selector-right" class="form-control">
+            <option disabled selected> -- select an option --</option>
+            <option value="test/samples/compressed.tracemonkey-pldi-09.pdf">compressed.tracemonkey</option>
+            <option value="test/samples/jclass_descriptors.pdf">jclass_descriptors.pdf</option>
+            <option value="test/samples/w3schools.pdf">w3schools.pdf</option>
+        </select>
+    </div>
+    <div>
+        <div id="viewer-container-right" class="viewer-container"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var viewerInstanceLeft = new emc.content.viewer.ContentViewer({
+        renderTo: "viewer-container-left",
+        downloaderPath: "app/js/download/downloader.js",
+        externalToolbar: false,
+        totalPageCount: 1
+    });
+    var viewerInstanceRight = new emc.content.viewer.ContentViewer({
+        renderTo: "viewer-container-right",
+        downloaderPath: "app/js/download/downloader.js",
+        externalToolbar: false,
+        totalPageCount: 1
+    });
+
+    var selectorLeft = document.getElementById('doc-selector-left');
+    selectorLeft.addEventListener("change", function(){
+        viewerInstanceLeft.load({
+            fullDocumentUrl:selectorLeft.options[selectorLeft.selectedIndex].value
+        });
+    });
+
+    var selectorRight = document.getElementById('doc-selector-right');
+    selectorRight.addEventListener("change", function(){
+        viewerInstanceRight.load({
+            fullDocumentUrl:selectorRight.options[selectorRight.selectedIndex].value
+        });
+    });
+
+</script>
+
+</body>
+</html>

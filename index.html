@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- bower:css -->
+    <!-- endbower -->
+    <style>html, body { height: 100%; margin:0; }</style>
+</head>
+<body>
+<!-- bower:js -->
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.js"></script>
+<script src="app/js/libs/bower/pdfjs-dist/build/pdf.worker.js"></script>
+<script src="app/js/libs/bower/webL10n/l10n.js"></script>
+<script src="app/js/libs/bower/es6-promise/promise.js"></script>
+<script src="app/js/libs/bower/eventEmitter/EventEmitter.js"></script>
+<script src="app/js/libs/bower/doT/doT.js"></script>
+<script src="app/js/libs/bower/jqlite/jqlite.1.1.1.js"></script>
+<!-- endbower -->
+<script src="app/js/libs/bower/jclass/index.js"></script>
+
+<link rel="stylesheet" type="text/css" href="app/styles/viewer.css" property="stylesheet"/>
+<link href="app/styles/font-icons.css" rel="stylesheet" type="text/css" property="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" property="stylesheet">
+<!-- Latest compiled and minified CSS -->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" property="stylesheet">-->
+
+<!--
+&lt;!&ndash; Optional theme &ndash;&gt;
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+-->
+
+<!--<link rel="resource" type="application/l10n" href="locale/locale.properties"/>-->
+<!--TODO use grunt task to concatenate and minify instead of individual for production-->
+<script src="app/js/viewer-l10n.js"></script>
+<script src="app/js/util/startup.js"></script>
+<script src="app/js/util/templateManager.js"></script>
+<script src="app/js/util/templateManager.js"></script>
+<script src="app/js/util/domUtility.js"></script>
+<script src="app/js/util/delayedTask.js"></script>
+<script src="app/js/store/store.js"></script>
+<script src="app/js/store/arrayStore.js"></script>
+<script src="app/js/store/viewerStore.js"></script>
+<script src="app/js/controller/downloader.js"></script>
+<script src="app/js/controller/mainController.js"></script>
+<script src="app/js/controller/zoomController.js"></script>
+<script src="app/js/controller/searchController.js"></script>
+<script src="app/js/controller/thumbnailController.js"></script>
+<script src="app/js/views/textLayer.js"></script>
+<script src="app/js/views/userActionElements.js"></script>
+<script src="app/js/views/defaultToolbar.js"></script>
+<script src="app/js/views/pageView.js"></script>
+<script src="app/js/viewer.js"></script>
+
+
+<div style="padding: 10px; margin-bottom: 40px;">
+    <select id='docSelector'>
+      <option disabled selected> -- select an option -- </option>
+      <option value="test/samples/compressed.tracemonkey-pldi-09.pdf">Doc: Trace</option>
+      <option value="test/samples/jclass_descriptors.pdf">Doc: jclass_descriptors.pdf</option>
+      <option value="test/samples/w3schools.pdf">Doc: w3schools.pdf</option>
+      <option value="test/samples/Administrator_6.5_SP3_User_Guide.pdf">Doc: User_Guide (9.6 MB, 797 pages)</option>
+      <!--<option value="test/samples/xCP 2 0 Distributed Architecture FAQ_JimOdom_Draft.pdf">Doc 2: xCP Distributed</option>-->
+      <!--<option value="test/samples/UserManual_UAN_ForMembers.pdf">Doc 3 : UserManual_UAN (1.5 MB)</option>-->
+      <!--<option value="test/samples/xCP 2.1 Self Paced Tutorial v1.1.pdf">Doc 4 : xCP Self Paced (16 MB)</option>-->
+    </select>    
+</div>
+
+<!--Custom toolbar sample follows-->
+<!--<nav class="ecd text-center">
+    <ul class="pagination pagination-sm">
+        <li>
+            <a id="first" href="#" aria-label="First">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li>
+            <a id="previous" href="#" aria-label="Previous">
+                <span aria-hidden="true">&lsaquo;</span>
+            </a>
+        </li>
+        <li><input type="text" class="input" id="page_num">  <span id="page_count"></span></li>
+        <li>
+            <a id="next" href="#" aria-label="Next">
+                <span aria-hidden="true">&rsaquo;</span>
+            </a>
+        </li>
+        <li>
+            <a id="last" href="#" aria-label="Last">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+
+        <li>
+            <a id="fitToWidth" href="#" aria-label="Fit to Width">
+                <span aria-hidden="true">&harr;</span>
+            </a>
+        </li>
+        <li>
+            <a id="fitToHeight" href="#" aria-label="Fit to Height">
+                <span aria-hidden="true">&varr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>-->
+
+<!--<div id="viewer-container" style="width: 1200px; height:600px; margin: 0 auto; border:1px solid #AEBAD3;"></div>-->
+<div id="viewer-container" style="width: 80%; min-width: 680px; min-height:400px; height: 80%; margin: 0 auto; border:1px solid #AEBAD3; position: relative;"></div>
+
+<script type="text/javascript">
+    //var pdfUrl = "test/samples/compressed.tracemonkey-pldi-09.pdf";
+    //var pdfUrl = "test/samples/xCP 2 0 Distributed Architecture FAQ_JimOdom_Draft.pdf";
+    var pdfUrl = "test/samples/UserManual_UAN_ForMembers.pdf";
+    //External toolbar commented out - use as sample code for external toolbar
+    /*var pageNumInput = document.getElementById('page_num');
+    var pageTotal = document.getElementById('page_count');
+    var pageChangeFn = function(pageNum, totalPages) {
+        pageNumInput.value = pageNum;
+        pageTotal.innerHTML = totalPages;
+        pageNumInput.style.width = pageTotal.offsetWidth + 'px';
+    };*/
+
+    //var emcPdfUrl = "http://10.30.89.100:8080/emc.pdf";
+    var viewerInstance = new emc.content.viewer.ContentViewer({
+        locale:'',
+        //fullDocumentUrl:pdfUrl, //emcPdfUrl
+        //fallbackUrl:pdfUrl,//emcPdfUrl
+        //pageServingUrl:pdfUrl,//emcPdfUrl
+        /*format: "pdf",*/
+        objectId: "0900075180005362",  //logging mostly as its the url that matters
+        transformationService:"transformationService",
+        renderTo:"viewer-container",
+        downloaderPath: "app/js/download/downloader.js", //path to download web worker - javascript web workers need to be loaded separately
+        defaultActionConfig:{
+            annotation:{view: true, edit: false, viewOthers: true},
+            print: {allow: true}
+        },
+        /*firstPage:"first",
+        previousPage:"previous",
+        nextPage:"next",
+        lastPage:"last",
+        fitToWidth:"fitToWidth",
+        fitToHeight:"fitToHeight",
+        pageNavigatedHandler: pageChangeFn,*/
+        externalToolbar: false,
+        totalPageCount: 1
+    });
+
+    //Handler code for custom toolbar
+    /*pageNumInput.addEventListener("change", function(){
+        if (pageNumInput.value > 0) {
+            viewerInstance.eventBus.emitEvent(viewerInstance.viewerId + 'navigationRequest', [
+                {pageNo: parseInt(pageNumInput.value)}
+            ]);
+        }
+    });*/
+
+    var docSelector = document.getElementById('docSelector');
+    docSelector.addEventListener("change", function(){
+        viewerInstance.load({
+            fullDocumentUrl:docSelector.options[docSelector.selectedIndex].value
+        });
+    });
+
+
+
+</script>
+
+</body>
+</html>

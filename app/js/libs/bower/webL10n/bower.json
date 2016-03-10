@@ -1,0 +1,27 @@
+{
+  "name": "webL10n",
+  "version": "0.0.1",
+  "homepage": "https://github.com/fabi1cazenave/webL10n",
+  "authors": [
+    "Fabien Cazenave <kaze@kompozer.net>",
+    "Édouard Lopez [bower] <dev+git@edouard-lopez.com>"
+  ],
+  "description": "Client-side internationalization / localization library",
+  "main": "./l10n.js",
+  "keywords": [
+    "l10n",
+    "i18n",
+    "localization",
+    "internationalization",
+    "client-side",
+    "mozilla"
+  ],
+  "license": "WTFPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
